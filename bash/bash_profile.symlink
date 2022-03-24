@@ -1,11 +1,6 @@
-#!/bin/bash
-#
-# This file is loaded once per user login.
-# Mac OS X seems to run a new login for each terminal that is opened so we 
-# load in .bashrc if it exists. 
-#
 
-# Load .bashrc if it exists.
+# the default umask is set in /etc/profile; for setting the umask
+# for ssh logins, install and configure the libpam-umask package.
+#umask 022
+
 test -f ~/.bashrc && source ~/.bashrc
-
-test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"

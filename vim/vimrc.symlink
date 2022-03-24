@@ -1,0 +1,77 @@
+execute pathogen#infect()
+filetype plugin indent on
+
+set t_ti= t_te=
+set nowrap
+set redraw
+set nostartofline
+set laststatus=2 
+set shortmess=at    " show short messages
+set showmatch
+set autowrite
+set noerrorbells					" No error bells
+set magic
+set showmode
+set notitle
+set ttyfast						" Smoother scrolling
+set more						" Use more instead of flooding screen
+set cinoptions=>4
+set showcmd
+set tabstop=4
+set shiftwidth=4
+set smarttab
+set expandtab
+set softtabstop=4
+set mat=1
+set viminfo=%,'50,\"100,:100,n~/.viminfo		" Options we want for ruler
+set linebreak						" For when we have wrapping on
+set number						" Show line numbers
+set ruler						" Turn on ruler
+set sidescroll=15
+set scrolloff=8
+set smd
+set noro
+set bs=2						" Backspacing over everything
+set hlsearch
+set ai							" Auto-indenting
+set shm+=I						" No start up message
+set nosi						" Turn off 'smart'-indenting
+set sm							" Show bracket match
+set mat=1						" Bracket match highlight time
+set dir=/tmp						" Temp dir
+set clipboard=unnamed					" Universal clipboard
+set ww+=<,>,[,]						" Movement keys (for wrapping)
+set pastetoggle=<F2>
+
+syntax on						" Turn on syntax
+so $VIMRUNTIME/syntax/syntax.vim			" Load filetypes for syntax highlighting
+
+map :W :w
+map :Q :q
+map :q :q!						" Quit
+map !t !!date						" Insert today's date
+map <F7> :set nonumber<Cr>
+map <F6> :set number<Cr>
+map <F8> :set wrap<Cr>					" Turn on wordwrap
+map <F9> :set nowrap<Cr>				" Turn off wordwrap (default)
+map <F3> :q<Cr>						" Quit
+map <f4> :wq<Cr>					" Save/Quit
+map T :r!date<Cr> kJ
+nmap <silent> <f5> :silent noh<CR>
+
+" Common editing keybindings
+map <C-k> d $
+map <C-w> d b
+map <C-u> d ^
+
+" Scrolling keybindings
+map <C-Up> <C-Y>
+map <C-Down> <C-E>
+
+set t_Co=256
+"colorscheme industry
+
+call pathogen#infect()
+call pathogen#helptags()
+
+let g:airline_powerline_fonts = 1

@@ -1,33 +1,47 @@
-#!/bin/bash
-#
-# Set any desired exports below.
-#
 
-# Standard exports.
+export INPUTRC=~/.inputrc
+#export MOZ_DBUS_REMOTE=1
 export DOTFILES_ROOT=~/.dotfiles
 export BROWSER='chrome'
-export EDITOR="code"
-export VISUAL='nano'
+export EDITOR="vim"
 export TERM=xterm-256color
 export LOCALIP="127.0.0.1"
 export OS=$(uname)
 export CDDIR="$HOME" # for use with the function 'cd' and the alias 'cdd'
-export CLICOLOR=1
-export LSCOLORS=ExFxBxDxCxegedabagacad
-export BLOCKSIZE=K              # set blocksize size
+
 export HISTCONTROL=ignoreboth:erasedups     # for 'ignoreboth': ignore duplicates and /^\s/
 export HISTIGNORE="&:ls:ll:la:l.:pwd:cd:exit:clear"
-export HISTSIZE=10000               # increase or decrease the size of the history to '10,000'
-export HISTTIMEFORMAT='%H:%M > '
-export HISTTIMEFORMAT='%Y-%m-%d_%H:%M:%S_%a  '  # makes history display in YYYY-MM-DD_HH:MM:SS_3CharWeekdaySpaceSpace format
+export HISTSIZE=
+export HISTFILESIZE=
+export HISTTIMEFORMAT="[%F %T] "
+
+# Change the file location because certain bash sessions truncate .bash_history file upon close.
+# http://superuser.com/questions/575479/bash-history-truncated-to-500-lines-on-each-login
+export HISTFILE=~/.bash_eternal_history
+
+# Force prompt to write history after every command.
+# http://superuser.com/questions/20900/bash-history-loss
+export PROMPT_COMMAND="history -a; history -n; $PROMPT_COMMAND"
+
 export HOSTFILE=$HOME/.hosts            # put list of remote hosts in ~/.hosts ...
+
 export LESSCHARSET='latin1'
 export LESS='-i -N -w  -z-4 -g -e -M -X -F -R -P%t?f%f \'
 export LESSOPEN='|/usr/bin/lesspipe.sh %s 2>&-' # use this if lesspipe.sh exists
-export PAGER='less -e'
-export TIMEFORMAT=$'\nreal %3R\tuser %3U\tsys %3S\tpcpu %P\n'
-export TMOUT=0                # auto logout after n seconds of inactivity
-export VIDEO_FORMAT=NTSC            # for use with creating compatible DVDs ('dvdauthor -x dvdauthor.xml' will fail if this not here)
 
-# Other exports.
-export NVM_DIR="$HOME/.nvm"
+export PAGER='less -e'
+
+export EDITOR=vim
+
+export MATTERHORN_REPO_URL=git@bitbucket.org:hudcede/matterhorn-dce-fork.git
+export OPENCAST_REPO_URL=git@bitbucket.org:hudcede/matterhorn-dce-fork.git
+export MATTERHORN_GIT_URL=git@bitbucket.org:hudcede/matterhorn-dce-fork.git
+export OPENCAST_GIT_URL=git@bitbucket.org:hudcede/matterhorn-dce-fork.git
+
+# maven stuff
+export MAVEN_OPTS='-Xmx1024m -XX:MaxPermSize=256m -XX:+TieredCompilation -XX:TieredStopAtLevel=1'
+export M2_REPO=~/.m2/repository
+
+# aws stuff
+export AWS_PROFILE=test
+export AWS_REGION=us-east-1

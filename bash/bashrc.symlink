@@ -1,39 +1,24 @@
-#!/bin/bash
-#
-# This file is loaded every time a bash shell is launched.
-# Therefore keep the behaviour in this file as light as possible.
-#
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
 
-# Load in extra files if they exist.
-test -f ~/.bash_completion && source ~/.bash_completion
-test -f ~/.bash_exports && source ~/.bash_exports
-test -f ~/.bash_aliases && source ~/.bash_aliases
 test -f ~/.bash_functions && source ~/.bash_functions
+test -f ~/.bash_aliases && source ~/.bash_aliases
+test -f ~/.bash_exports && source ~/.bash_exports
+test -f ~/.bash_local_specific && source ~/.bash_local_specific
 
-# Load in any optional temp bash files (good for env specific stuff).
-test -f ~/.bash_temp_exports && source ~/.bash_temp_exports
-test -f ~/.bash_temp_aliases && source ~/.bash_temp_aliases
-test -f ~/.bash_temp_functions && source ~/.bash_temp_functions
+test -f ~/.git-completion.bash && source ~/.git-completion.bash
 
-# Load in everything else...
-test -f /etc/bash_completion && source /etc/bash_completion
-test -f /usr/local/etc/bash_completion && source /usr/local/etc/bash_completion
-test -f /usr/local/git/contrib/completion/git-completion.bash && source /usr/local/git/contrib/completion/git-completion.bash
-test -f /usr/local/git/contrib/completion/git-prompt.sh && source /usr/local/git/contrib/completion/git-prompt.sh
-test -f /usr/local/bin/virtualenvwrapper.sh && source /usr/local/bin/virtualenvwrapper.sh
-
-test -d "$DOTFILES_ROOT/bin" && export PATH="$DOTFILES_ROOT/bin:$PATH"
-test -d ~/.linuxbrew/bin && export PATH=~/.linuxbrew/bin:$PATH
-test -d ~/.linuxbrew/sbin && export PATH=~/.linuxbrew/sbin:$PATH
-test -d /home/linuxbrew/.linuxbrew/bin && export PATH=/home/linuxbrew/.linuxbrew/bin:$PATH
-test -d /home/linuxbrew/.linuxbrew/sbin && export PATH=/home/linuxbrew/.linuxbrew/sbin:$PATH
-test -d ~/linuxbrew/.linuxbrew/binexport && export PATH=~/linuxbrew/.linuxbrew/bin:$PATH
-test -d /usr/local/sbin && export PATH=/usr/local/sbin:$PATH
-test -d ~/Development/Go && export GOPATH=~/Development/Go && export PATH=$GOPATH/bin:$PATH
-test -d /usr/local/go && export GOROOT=/usr/local/go && export PATH=$GOROOT/bin:$PATH
-test -d /opt/homebrew/bin && eval "$(/opt/homebrew/bin/brew shellenv)"
-test -d ~/.crenv/bin && export PATH=~/.crenv/bin:$PATH && eval $(crenv init -)
-test -d ~/.rbenv/bin && export PATH="$HOME/.rbenv/bin:$PATH" && eval "$(rbenv init -)"
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
 
 if test $(which docker); then
   test -f ~/.docker_functions && source ~/.docker_functions
@@ -44,27 +29,64 @@ if [ "$PS1" ]; then
   test -f ~/.ps1 && source ~/.ps1
 fi
 
-# Make 'less' more friendly for non-text input files, see lesspipe(1).
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-# If direnv is installed, ensure it is initialised.
-if test $(which direnv); then
-  eval "$(direnv hook bash)"
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
 fi
 
-# If rbenv is installed, ensure it is initialised.
-if test $(which rbenv); then
-  eval "$(rbenv init -)"
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/.local/bin" ] ; then
+		PATH="$HOME/.local/bin:$PATH"
 fi
 
-# Added by the 'travis' gem.
-[ -f /Users/michaeltelford/.travis/travis.sh ] && source /Users/michaeltelford/.travis/travis.sh
-
-# Added by the 'toys' gem.
-if test $(which toys); then
-  eval "$(toys system bash-completion install)"
+if [ -d "$HOME/go/bin" ] ; then
+    PATH="$HOME/go/bin:$PATH"
 fi
 
-# NVM && NPM
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# pyenv plugins
+# - pyenv-doctor/
+# - pyenv-installer
+# - pyenv-update
+# - pyenv-virtualenv
+# - pyenv-virutalenvwrapper
+# - pyenv-which-ext
+# - python-build
+if [ -d $HOME/.pyenv ]; then
+		export WORKON_HOME=~/envs
+		export PROJECT_HOME=~/projects
+		export PYENV_ROOT="${HOME}/.pyenv"
+		export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
+		export PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH"
+		eval "$(pyenv init -)"
+		pyenv virtualenvwrapper_lazy
+		. ~/.pyenv/completions/pyenv.bash
+fi
+
+if [ -d $HOME/.rbenv ]; then
+		# hey dummy, don't forget to swap in compat-openssl10-devel when building new rubies
+		export RBENV_ROOT="$HOME/.rbenv"
+		export PATH="$RBENV_ROOT/bin:$PATH"
+		eval "$(rbenv init -)"
+		. ~/.rbenv/completions/rbenv.bash
+fi
+
+if [ -d $HOME/.nodenv ]; then
+		export PATH="$HOME/.nodenv/bin:$PATH"
+		eval "$(nodenv init -)"
+fi
+
+## If not running interactively, don't do anything
+#case $- in
+#    *i*) ;;
+#      *) return;;
+#esac
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/jluker/Downloads/google-cloud-sdk/path.bash.inc' ]; then . '/home/jluker/Downloads/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/jluker/Downloads/google-cloud-sdk/completion.bash.inc' ]; then . '/home/jluker/Downloads/google-cloud-sdk/completion.bash.inc'; fi
+
+# tabtab source for packages
+# uninstall by removing these lines
+[ -f ~/.config/tabtab/__tabtab.bash ] && . ~/.config/tabtab/__tabtab.bash || true

@@ -1,74 +1,55 @@
-#!/bin/bash
 
-# General shell commands.
-alias l='ls -al'
-alias ls='ls -GFh'
-alias c='clear'
+alias cp='cp -i'
+alias mv='mv -i'
+alias grep='grep --color'
+alias cls='clear'
+alias se='screen -e^Ee -S main -DR'
+alias s='screen -DR'
+alias vi='vim'
+alias ports='lsof -i| grep LISTEN'
+alias mkv='mkvirtualenv -a $(pwd) -p `pyenv which python` $(basename `pwd`)'
+alias workong='workon'
 
-# File system commands.
-alias home='cd ~'
-alias up='cd ..'
-alias down='cd ~/Downloads'
-alias back='cd "$OLDPWD"'
-alias dot='cd ~/.dotfiles'
-alias dev='cd ~/Development'
-alias spike='cd ~/Development/Spikes'
-alias godev='cd $GOPATH'
-alias godevme='cd $GOPATH/src/github.com/michaeltelford'
+# enable color support of ls and also add handy aliases
+# if [ -x /usr/bin/dircolors ]; then
+#     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+#     alias ls='ls --color=auto'
+#     alias grep='grep --color=auto'
+#     alias fgrep='fgrep --color=auto'
+#     alias egrep='egrep --color=auto'
+# fi
 
-# Make commands.
-alias m='make'
-alias mi='make install'
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -lCF'
 
-# Git commands.
-alias g='git'
-alias gs='clear; git status -sb'
-alias gl='git log'
-alias glo='git log --oneline'
-alias glp='git log -p' # shows logs with actual file changes
-alias glf='git log --name-status' # shows logs with summary file changes
-alias gd='git diff'
-alias gdt='git difftool'
-alias gmt='git mergetool'
-alias ga='git add'
-alias gc='git commit'
-alias gr='git remote -v'
-alias gb='git branch -av' # shows all branches including remote one's
-alias glb='git branch' # shows all local branches
-alias gch='git checkout'
-alias gcb='git checkout -b' # creates and check's out the new given branch name
-alias gfap='git fetch --all --prune' # Updates from the remotes branches
-alias gac='git add -A && git commit -m'
+# ipython notebook
+alias ipynb="ipython notebook --notebook-dir=~/ipynb"
 
-# Basic Docker (and Docker Compose) commands.
-# See docker_functions.symlink for more advanced functionality.
-alias d='docker'
-alias dc='docker-compose'
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
-# Kubernetes commands.
-alias mk='minikube'
-alias k='kubectl'
-alias h='helm'
+alias nbstrip_jq="jq --indent 1 \
+    '(.cells[] | select(has(\"outputs\")) | .outputs) = []  \
+    | (.cells[] | select(has(\"execution_count\")) | .execution_count) = null  \
+    | .metadata = {\"language_info\": {\"name\": \"python\", \"pygments_lexer\": \"ipython3\"}} \
+    | .cells[].metadata = {} \
+    '"
 
-# Ruby commands.
-alias be='bundle exec'
-alias ber='bundle exec rake'
-alias bert='bundle exec rake test'
-alias berl='bundle exec rails'
+alias oc-stacks='aws opsworks describe-stacks --query "Stacks[].[Name,StackId]" --output text'
 
-# Mac OS X specific commands.
-if test "$(uname)" = "Darwin"; then
-  # Brew commands.
-  alias b='brew'
-  alias bs='brew search'
-  alias bi='brew install'
-fi
+# xrandr i3wm w/ dual monitor on/off
+alias xlaptop='xrandr --verbose --output eDP-1 --primary --mode 1920x1080 --pos 320x1440 --rotate normal --output DP-1 --off --output HDMI-1 --off --output DP-2 --off --output HDMI-2 --off'
+alias xdual='xrandr --verbose --output eDP-1 --primary --mode 1920x1080 --pos 320x1440 --rotate normal --output DP-1 --off --output HDMI-1 --off --output DP-2 --off --output HDMI-2 --mode 2560x1440 --pos 0x0 --rotate normal'
+alias xoffice='xrandr --output eDP-1 --primary --mode 1920x1080 --pos 0x1440 --rotate normal --output DP-1 --off --output HDMI-1 --off --output DP-2 --off --output HDMI-2 --mode 2560x1440 --pos 1111x0 --rotate normal'
 
-# Load GNU coreutils dircolors (on Linux based systems excluding OS X).
-if [ -x /usr/bin/dircolors ]; then
-   test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-   alias ls='ls --color=auto'
-   alias grep='grep --color=auto'
-   alias fgrep='fgrep --color=auto'
-   alias egrep='egrep --color=auto'
-fi
+# django
+alias django-secret-key='python -c "import secrets; print(secrets.token_urlsafe())"'
+
+# awscli v2
+alias aws2='docker run --rm -it -v ~/.aws:/root/.aws -e AWS_PROFILE=test amazon/aws-cli'
+
+# aws prod profile
+alias aws-prod='aws --profile prod'

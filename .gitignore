@@ -1,12 +1,1 @@
-**/.DS_Store
-**/spike.sh
-**/.env
-
-bash/bash_temp_functions.symlink
-bash/bash_temp_exports.symlink
-bash/bash_temp_aliases.symlink
-
 git/gitconfig.local.symlink
-
-ruby/.bundle
-ruby/Gemfile.lock

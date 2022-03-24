@@ -1,34 +1,83 @@
-# Local/private config goes in the include
-[include]
-        path = ~/.gitconfig.local
-[hub]
-        protocol = https
-[color]
-        diff = auto
-        status = auto
-        branch = auto
-        ui = true
-[core]
-        excludesfile = ~/.gitignore
-        editor = $(which code) --wait
-	autocrlf = input
-[apply]
-        whitespace = nowarn
-[mergetool]
-        keepBackup = false
-[difftool]
-        prompt = false
-[diff]
-	tool = kdiff3
-[merge]
-	tool = kdiff3
-[help]
-        autocorrect = 1
 [push]
-        # See `git help config` (search for push.default)
-        # for more information on different options of the below setting.
-        #
-        # Setting to git 2.0 default to suppress warning message
-        default = simple
+  default = tracking
+[format]
+#  pretty = %Cblue%h%Creset %Cgreen[%ar]%Creset (%an) %s
+[alias]
+  br = branch -vv --sort=-committerdate
+  a = commit -a
+  co = checkout
+  st = status -sb
+  ci = commit -v
+  up = !git fetch origin && git rebase origin/master
+  mm = !git checkout master && git merge @{-1} --ff-only
+  lol = log --oneline --abbrev-commit --graph --decorate --all --color
+  praise = blame
+  inquisition = blame
+  witch-hunt = blame
+  duff = diff
+  dom = diff origin/master
+  dc = diff --cached
+  rbc = rebase --continue
+  rba = rebase --abort
+  unstage = reset HEAD
+  set-upstream = !git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD`
+  amend = commit -a --amend --no-edit
+  pushf = push --force-with-lease
+  log = log --decorate --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an, %ad>%Creset' --date=short
+  lg = log --decorate --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+  tag = tag --sort=v:refname
+
+[push]
+  default = current
 [pull]
-	rebase = false
+  default = current
+[diff]
+  #mnemonicprefix = true
+    noprefix = true
+[branch]
+  autosetuprebase = always
+  autosetupmerge = always
+[apply]
+  whitespace = nowarn
+[color]
+  ui = true
+  branch = auto
+  diff = auto
+  status = auto
+[color "branch"]
+  current = yellow reverse
+  local = yellow
+  remote = green
+[color "diff"]
+  meta = yellow bold
+  frag = magenta bold
+  old = red bold
+  new = green bold
+[color "status"]
+  added = yellow
+  changed = green
+  untracked = cyan
+[user]
+  email = jay_luker@harvard.edu
+  name = Jay Luker
+[core]
+  excludesfile = /home/jluker/.gitignore_global
+  editor = vim
+  pager = less -x4
+  attributesfile = /home/jluker/.gitattributes
+[cola]
+	spellcheck = false
+[hub]
+	protocol = ssh
+[filter "nbstrip_full"]
+  clean = "jq --indent 1 \
+        '(.cells[] | select(has(\"outputs\")) | .outputs) = []  \
+        | (.cells[] | select(has(\"execution_count\")) | .execution_count) = null  \
+        | .metadata = {\"language_info\": {\"name\": \"python\", \"pygments_lexer\": \"ipython3\"}} \
+        | .cells[].metadata = {} \
+        '"
+  smudge = cat
+  required = true
+
+[init]
+	defaultBranch = main

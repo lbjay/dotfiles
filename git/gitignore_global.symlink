@@ -1,0 +1,14 @@
+.env*
+.venv
+.idea
+.python-version
+.ipynb_checkpoints
+.ipynb
+.project
+.ruby-version
+.ruby-gemset
+.rbenv-gemsets
+.node-version
+.vscode
+.oc-ips
+.deja-dup-ignore

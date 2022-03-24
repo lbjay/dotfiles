@@ -15,8 +15,7 @@ insert_final_newline = true
 [Makefile]
 indent_style = tab
 
-[*.go]
-indent_style = tab
+[*.py]
 indent_size = 4
 
 [{*.md,README}]
