@@ -43,6 +43,10 @@ if [ -d "$HOME/go/bin" ] ; then
     PATH="$HOME/go/bin:$PATH"
 fi
 
+if test $(which keychain); then
+    eval `keychain --eval --agents ssh id_rsa`
+fi
+
 # pyenv plugins
 # - pyenv-doctor/
 # - pyenv-installer

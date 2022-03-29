@@ -4,6 +4,7 @@ export INPUTRC=~/.inputrc
 export DOTFILES_ROOT=~/.dotfiles
 export BROWSER='chrome'
 export EDITOR="vim"
+export TERMINAL=gnome-terminal
 export TERM=xterm-256color
 export LOCALIP="127.0.0.1"
 export OS=$(uname)
