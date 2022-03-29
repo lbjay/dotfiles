@@ -43,7 +43,7 @@ alias oc-stacks='aws opsworks describe-stacks --query "Stacks[].[Name,StackId]" 
 # xrandr i3wm w/ dual monitor on/off
 alias xlaptop='xrandr --verbose --output eDP-1 --primary --mode 1920x1080 --pos 320x1440 --rotate normal --output DP-1 --off --output HDMI-1 --off --output DP-2 --off --output HDMI-2 --off'
 alias xdual='xrandr --verbose --output eDP-1 --primary --mode 1920x1080 --pos 320x1440 --rotate normal --output DP-1 --off --output HDMI-1 --off --output DP-2 --off --output HDMI-2 --mode 2560x1440 --pos 0x0 --rotate normal'
-alias xoffice='xrandr --output eDP-1 --primary --mode 1920x1080 --pos 0x1440 --rotate normal --output DP-1 --off --output HDMI-1 --off --output DP-2 --off --output HDMI-2 --mode 2560x1440 --pos 1111x0 --rotate normal'
+alias xoffice='bash ~/.screenlayout/office.sh'
 
 # django
 alias django-secret-key='python -c "import secrets; print(secrets.token_urlsafe())"'
