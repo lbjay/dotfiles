@@ -26,11 +26,8 @@ export PROMPT_COMMAND="history -a && history -n; $PROMPT_COMMAND"
 
 export HOSTFILE=$HOME/.hosts            # put list of remote hosts in ~/.hosts ...
 
-export LESSCHARSET='latin1'
-export LESS='-i -N -w  -z-4 -g -e -M -X -F -R -P%t?f%f \'
-export LESSOPEN='|/usr/bin/lesspipe.sh %s 2>&-' # use this if lesspipe.sh exists
-
-export PAGER='less -e'
+export LESS="-isMR"
+export PAGER="less -isMR"
 
 export EDITOR=vim
 

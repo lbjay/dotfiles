@@ -4,3 +4,4 @@
 #umask 022
 
 test -f ~/.bashrc && source ~/.bashrc
+
