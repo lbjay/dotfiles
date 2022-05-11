@@ -8,3 +8,6 @@
 "\e[B": history-search-forward
 set show-all-if-ambiguous on
 set completion-ignore-case on
+
+# cycle through tab completion options
+"\C-i": menu-complete
