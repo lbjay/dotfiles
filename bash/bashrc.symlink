@@ -1,3 +1,6 @@
+#
+# ~/.bashrc
+#
 
 [[ $- != *i* ]] && return
 
@@ -23,11 +26,6 @@ if test $(which docker); then
   test -f ~/.docker_functions && source ~/.docker_functions
 fi
 
-# Load ps1 behaviour e.g. prompt, colouring etc.
-#if [ "$PS1" ]; then
-#  test -f ~/.ps1 && source ~/.ps1
-#fi
-
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
@@ -47,17 +45,15 @@ fi
 # - pyenv-installer
 # - pyenv-update
 # - pyenv-virtualenv
-# - pyenv-virutalenvwrapper
 # - pyenv-which-ext
 # - python-build
 if [ -d $HOME/.pyenv ]; then
 		export WORKON_HOME=~/envs
 		export PROJECT_HOME=~/projects
 		export PYENV_ROOT="${HOME}/.pyenv"
-		export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
 		export PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH"
 		eval "$(pyenv init -)"
-        eval "$(pyenv virtualenv-init -)"
+		eval "$(pyenv virtualenv-init -)"
 		. ~/.pyenv/completions/pyenv.bash
 fi
 
@@ -65,7 +61,7 @@ if [ -d $HOME/.rbenv ]; then
 		# hey dummy, don't forget to swap in compat-openssl10-devel when building new rubies
 		export RBENV_ROOT="$HOME/.rbenv"
 		export PATH="$RBENV_ROOT/bin:$PATH"
-		eval "$(rbenv init -)"
+		eval "$(rbenv init - bash)"
 		. ~/.rbenv/completions/rbenv.bash
 fi
 
@@ -73,12 +69,6 @@ if [ -d $HOME/.nodenv ]; then
 		export PATH="$HOME/.nodenv/bin:$PATH"
 		eval "$(nodenv init -)"
 fi
-
-## If not running interactively, don't do anything
-#case $- in
-#    *i*) ;;
-#      *) return;;
-#esac
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/home/jluker/Downloads/google-cloud-sdk/path.bash.inc' ]; then . '/home/jluker/Downloads/google-cloud-sdk/path.bash.inc'; fi
@@ -254,5 +244,4 @@ ex ()
   fi
 }
 
-# This gets run from ~/.xinitrc
-# eval $(ssh-agent)
+eval $(ssh-agent)

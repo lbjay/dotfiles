@@ -41,4 +41,3 @@ export AWS_PROFILE=test
 export AWS_REGION=us-east-1
 
 export BROWSER=/usr/bin/firefox
-
