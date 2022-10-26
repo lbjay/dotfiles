@@ -31,8 +31,12 @@
 [pull]
   default = current
 [diff]
-  #mnemonicprefix = true
-    noprefix = true
+  noprefix = true
+  tool = meld
+[difftool]
+  prompt = false
+[difftool "meld"]
+  cmd = meld "$LOCAL" "$REMOTE"
 [branch]
   autosetuprebase = always
   autosetupmerge = always
