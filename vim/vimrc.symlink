@@ -42,6 +42,7 @@ set dir=/tmp						" Temp dir
 set clipboard=unnamed					" Universal clipboard
 set ww+=<,>,[,]						" Movement keys (for wrapping)
 set pastetoggle=<F2>
+set mouse=a
 
 syntax on						" Turn on syntax
 so $VIMRUNTIME/syntax/syntax.vim			" Load filetypes for syntax highlighting
