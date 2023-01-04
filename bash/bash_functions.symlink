@@ -232,3 +232,17 @@ oc-connect() {
 dbash() {
     docker exec -t -i $(docker ps | grep $1 | awk '{ print $1 }') bash
 }
+
+_workon_completions()
+{
+  if [ "${#COMP_WORDS[@]}" != "2" ]; then
+    return
+  fi
+
+  # keep the suggestions in a local variable
+  local suggestions=($(compgen -W "$(ls ${HOME}/projects)" -- "${COMP_WORDS[1]}"))
+  COMPREPLY=("${suggestions[@]}")
+}
+
+complete -F _workon_completions workon
+

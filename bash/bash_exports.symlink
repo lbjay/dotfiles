@@ -1,9 +1,6 @@
 
 export INPUTRC=~/.inputrc
-#export MOZ_DBUS_REMOTE=1
 export DOTFILES_ROOT=~/.dotfiles
-export BROWSER='chrome'
-export EDITOR="vim"
 export TERMINAL=gnome-terminal
 export TERM=xterm-256color
 export LOCALIP="127.0.0.1"
@@ -29,7 +26,7 @@ export HOSTFILE=$HOME/.hosts            # put list of remote hosts in ~/.hosts .
 export LESS="-isMR"
 export PAGER="less -isMR"
 
-export EDITOR=vim
+export EDITOR=/usr/bin/vim
 
 export MATTERHORN_REPO_URL=git@bitbucket.org:hudcede/matterhorn-dce-fork.git
 export OPENCAST_REPO_URL=git@bitbucket.org:hudcede/matterhorn-dce-fork.git
@@ -37,9 +34,11 @@ export MATTERHORN_GIT_URL=git@bitbucket.org:hudcede/matterhorn-dce-fork.git
 export OPENCAST_GIT_URL=git@bitbucket.org:hudcede/matterhorn-dce-fork.git
 
 # maven stuff
-export MAVEN_OPTS='-Xmx1024m -XX:MaxPermSize=256m -XX:+TieredCompilation -XX:TieredStopAtLevel=1'
 export M2_REPO=~/.m2/repository
 
 # aws stuff
 export AWS_PROFILE=test
 export AWS_REGION=us-east-1
+
+export BROWSER=/usr/bin/firefox
+
