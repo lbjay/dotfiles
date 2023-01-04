@@ -244,4 +244,5 @@ ex ()
   fi
 }
 
-eval $(ssh-agent)
+# This gets run from ~/.xinitrc
+# eval $(ssh-agent)

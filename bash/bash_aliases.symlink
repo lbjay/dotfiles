@@ -7,7 +7,9 @@ alias se='screen -e^Ee -S main -DR'
 alias s='screen -DR'
 alias vi='vim'
 alias ports='lsof -i| grep LISTEN'
-alias mkv='mkvirtualenv -a $(pwd) -p `pyenv which python` $(basename `pwd`)'
+#alias mkv='mkvirtualenv -a $(pwd) -p `pyenv which python` $(basename `pwd`)'
+alias mkv='pyenv virtualenv $(basename $(pwd)) && echo $(basename $(pwd)) > .python-version && pip install -U pip'
+alias rmvirtualenv='pyenv virtualenv-delete $(basename $(pwd)) && rm -f .python-version'
 alias workong='workon'
 
 # enable color support of ls and also add handy aliases
