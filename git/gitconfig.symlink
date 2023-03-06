@@ -68,6 +68,7 @@
   editor = vim
   pager = less -x4
   attributesfile = /home/jluker/.gitattributes
+  ignorecase = false
 [cola]
 	spellcheck = false
 [hub]

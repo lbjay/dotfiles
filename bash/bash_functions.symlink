@@ -233,6 +233,11 @@ dbash() {
     docker exec -t -i $(docker ps | grep $1 | awk '{ print $1 }') bash
 }
 
+workon() {
+  project=$1
+  cd ${HOME}/projects/$project
+}
+
 _workon_completions()
 {
   if [ "${#COMP_WORDS[@]}" != "2" ]; then
