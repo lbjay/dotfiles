@@ -26,7 +26,7 @@ export HOSTFILE=$HOME/.hosts            # put list of remote hosts in ~/.hosts .
 export LESS="-isMR"
 export PAGER="less -isMR"
 
-export EDITOR=/usr/bin/vim
+export EDITOR=/usr/bin/nvim
 
 export MATTERHORN_REPO_URL=git@bitbucket.org:hudcede/matterhorn-dce-fork.git
 export OPENCAST_REPO_URL=git@bitbucket.org:hudcede/matterhorn-dce-fork.git
