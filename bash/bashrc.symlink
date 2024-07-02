@@ -19,7 +19,7 @@ if ! shopt -oq posix; then
   fi
 fi
 
-if test $(which docker); then
+if test $(which docker >/dev/null 2>&1); then
   test -f ~/.docker_functions && source ~/.docker_functions
 fi
 
@@ -172,7 +172,7 @@ fi
 unset use_color safe_term match_lhs sh
 
 # git prompt stuff
-source ~/.git-prompt.sh
+test -f ~/.git-prompt.sh && source ~/.git-prompt.sh
 export PS1="\T"'$(git branch &>/dev/null;\
 if [ $? -eq 0 ]; then \
   echo "$(echo `git status` | grep "nothing to commit" > /dev/null 2>&1; \
@@ -256,3 +256,5 @@ ex ()
 
 # This gets run from ~/.xinitrc
 # eval $(ssh-agent)
+
+# eval "$(starship init bash)"

@@ -1,11 +1,9 @@
-execute pathogen#infect()
-filetype plugin indent on
 
 set t_ti= t_te=
 set nowrap
 set redraw
 set nostartofline
-set laststatus=2 
+set laststatus=2
 set shortmess=at    " show short messages
 set showmatch
 set autowrite
@@ -72,7 +70,9 @@ map <C-Down> <C-E>
 set t_Co=256
 "colorscheme industry
 
-call pathogen#infect()
-call pathogen#helptags()
+call plug#begin()
+Plug 'tpope/vim-sensible'
+Plug 'preservim/nerdtree'
+call plug#end()
 
 let g:airline_powerline_fonts = 1
