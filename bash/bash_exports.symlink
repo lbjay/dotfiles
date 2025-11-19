@@ -1,16 +1,14 @@
 
 export INPUTRC=~/.inputrc
-export DOTFILES_ROOT=~/.dotfiles
 export TERMINAL=gnome-terminal
 export TERM=xterm-256color
 export LOCALIP="127.0.0.1"
 export OS=$(uname)
-export CDDIR="$HOME" # for use with the function 'cd' and the alias 'cdd'
 
 export HISTCONTROL=ignoreboth:erasedups     # for 'ignoreboth': ignore duplicates and /^\s/
 export HISTIGNORE="&:ls:ll:la:l.:pwd:cd:exit:clear"
-export HISTSIZE=
-export HISTFILESIZE=
+export HISTSIZE=-1
+export HISTFILESIZE=-1
 export HISTTIMEFORMAT="[%F %T] "
 
 # Change the file location because certain bash sessions truncate .bash_history file upon close.
@@ -19,26 +17,21 @@ export HISTFILE=~/.bash_eternal_history
 
 # Force prompt to write history after every command.
 # http://superuser.com/questions/20900/bash-history-loss
-export PROMPT_COMMAND="history -a && history -n; $PROMPT_COMMAND"
+# Note: set_prompt is defined in bashrc and will be appended to this
+export PROMPT_COMMAND="history -a; history -n"
 
-export HOSTFILE=$HOME/.hosts            # put list of remote hosts in ~/.hosts ...
-
-export LESS="-isMR"
+export LESS="-isMRX"
 export PAGER="less -isMR"
 
-export EDITOR=/usr/bin/vim
-
-export MATTERHORN_REPO_URL=git@bitbucket.org:hudcede/matterhorn-dce-fork.git
-export OPENCAST_REPO_URL=git@bitbucket.org:hudcede/matterhorn-dce-fork.git
-export MATTERHORN_GIT_URL=git@bitbucket.org:hudcede/matterhorn-dce-fork.git
-export OPENCAST_GIT_URL=git@bitbucket.org:hudcede/matterhorn-dce-fork.git
+export EDITOR=/usr/bin/nvim
 
 # maven stuff
-export M2_REPO=~/.m2/repository
+export M2_REPO=~/.m2
+export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:bin/java::")
 
 # aws stuff
 export AWS_PROFILE=test
 export AWS_REGION=us-east-1
+export AWS_DEFAULT_REGION=us-east-1
 
 export BROWSER=/usr/bin/firefox
-

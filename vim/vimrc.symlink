@@ -1,7 +1,5 @@
 
-set t_ti= t_te=
 set nowrap
-set redraw
 set nostartofline
 set laststatus=2
 set shortmess=at    " show short messages
@@ -21,7 +19,10 @@ set smarttab
 set expandtab
 set softtabstop=4
 set mat=1
-set viminfo=%,'50,\"100,:100,n~/.viminfo		" Options we want for ruler
+" viminfo setting - nvim ignores this and uses ShaDa instead
+if !has('nvim')
+  set viminfo=%,'50,\"100,:100,n~/.viminfo
+endif
 set linebreak						" For when we have wrapping on
 set number						" Show line numbers
 set ruler						" Turn on ruler
@@ -39,11 +40,9 @@ set mat=1						" Bracket match highlight time
 set dir=/tmp						" Temp dir
 set clipboard=unnamed					" Universal clipboard
 set ww+=<,>,[,]						" Movement keys (for wrapping)
-set pastetoggle=<F2>
-set mouse=a
+set mouse-=a
 
 syntax on						" Turn on syntax
-so $VIMRUNTIME/syntax/syntax.vim			" Load filetypes for syntax highlighting
 
 map :W :w
 map :Q :q

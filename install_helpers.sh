@@ -107,6 +107,37 @@ link_file() {
   fi
 }
 
+setup_nvim() {
+  info "Setting up nvim configuration..."
+
+  local nvim_config_dir="$HOME/.config/nvim"
+  local init_vim="$nvim_config_dir/init.vim"
+  local vimrc_src="$DOTFILES_ROOT/vim/vimrc.symlink"
+
+  # Create nvim config directory if it doesn't exist
+  if [ ! -d "$nvim_config_dir" ]; then
+    mkdir -p "$nvim_config_dir"
+    success "Created $nvim_config_dir"
+  fi
+
+  # Link init.vim to vimrc.symlink
+  if [ -L "$init_vim" ]; then
+    local currentSrc="$(readlink $init_vim)"
+    if [ "$currentSrc" == "$vimrc_src" ]; then
+      success "nvim init.vim already linked correctly"
+      return
+    fi
+  fi
+
+  if [ -f "$init_vim" ] && [ ! -L "$init_vim" ]; then
+    mv "$init_vim" "${init_vim}.backup"
+    success "Backed up existing init.vim"
+  fi
+
+  ln -sf "$vimrc_src" "$init_vim"
+  success "Linked nvim init.vim to vimrc.symlink"
+}
+
 symlink_dotfiles() {
   info "Symlinking dotfiles..."
 
@@ -118,4 +149,7 @@ symlink_dotfiles() {
   done
 
   success "Symlinking dotfiles complete"
+
+  # Setup nvim configuration
+  setup_nvim
 }

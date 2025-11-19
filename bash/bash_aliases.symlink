@@ -5,40 +5,22 @@ alias grep='grep --color'
 alias cls='clear'
 alias se='screen -e^Ee -S main -DR'
 alias s='screen -DR'
-#alias vi='nvim'
+alias vi='nvim'
+alias vim='nvim'
 alias ports='lsof -i| grep LISTEN'
 #alias mkv='mkvirtualenv -a $(pwd) -p `pyenv which python` $(basename `pwd`)'
 alias mkv='pyenv virtualenv $(basename $(pwd)) && echo $(basename $(pwd)) > .python-version && pip install -U pip'
 alias rmvirtualenv='pyenv virtualenv-delete $(basename $(pwd)) && rm -f .python-version'
 alias workong='workon'
 
-# enable color support of ls and also add handy aliases
-# if [ -x /usr/bin/dircolors ]; then
-#     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-#     alias ls='ls --color=auto'
-#     alias grep='grep --color=auto'
-#     alias fgrep='fgrep --color=auto'
-#     alias egrep='egrep --color=auto'
-# fi
-
 # some more ls aliases
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -lCF'
 
-# ipython notebook
-alias ipynb="ipython notebook --notebook-dir=~/ipynb"
-
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
-alias nbstrip_jq="jq --indent 1 \
-    '(.cells[] | select(has(\"outputs\")) | .outputs) = []  \
-    | (.cells[] | select(has(\"execution_count\")) | .execution_count) = null  \
-    | .metadata = {\"language_info\": {\"name\": \"python\", \"pygments_lexer\": \"ipython3\"}} \
-    | .cells[].metadata = {} \
-    '"
 
 alias oc-stacks='aws opsworks describe-stacks --query "Stacks[].[Name,StackId]" --output text'
 
@@ -51,7 +33,7 @@ alias xoffice='bash ~/.screenlayout/office.sh'
 alias django-secret-key='python -c "import secrets; print(secrets.token_urlsafe())"'
 
 # awscli v2
-alias aws2='docker run --rm -it -v ~/.aws:/root/.aws -e AWS_PROFILE=test amazon/aws-cli'
+alias aws2='docker run --rm -it -v ~/.aws:/root/.aws -e TERM -e AWS_PROFILE=${AWS_PROFILE} amazon/aws-cli'
 
 # aws prod profile
 alias aws-prod='aws --profile prod'

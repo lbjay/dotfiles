@@ -2,8 +2,6 @@
 .venv
 .idea
 .python-version
-.ipynb_checkpoints
-.ipynb
 .project
 .ruby-version
 .ruby-gemset

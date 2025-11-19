@@ -14,45 +14,25 @@ bashfuncs() {
 
   echo 'findhere - Find files in local dir with given glob e.g.'
   echo '           findhere "*.log"'
-  echo 'findall  - Find all matching files on file system e.g.'
-  echo '           findall "docker"'
-  echo 'finddot  - Find all dotfile symlinks in the home folder'
   echo 'search   - Grep recursively for pattern in local dir e.g.'
   echo '           search "My Project"'
-  echo 'rmds     - Recursively remove all .DS_Store files from local dir'
   echo 'dir      - Create a dir in the local dir and cd into it e.g.'
   echo '           dir newproject'
-  echo 'manpdf   - Open man page as PDF without saving it anywhere e.g.'
-  echo '           manpdf ls'
   echo 'zipit    - Zip a file in the local dir e.g.'
   echo '           zipit newproject'
-  echo 'extract  - Extracts archived files / mounts disk images e.g.'
-  echo '           extract newproject.zip'
   echo 'sshi     - SSH using the identity file ~/.ssh/id_rsa e.g.'
   echo '           sshi user@server.com'
-  echo 'sedit    - Replace all instances of X with Y in file Z e.g.'
-  echo '           sedit "hello" "ciao" myfile.txt'
-  echo 'gblogs   - Display logs of current branch starting with the last'
-  echo '           commit when the branch was created'
-  echo 'launch   - Launches a Mac OS X application e.g.'
-  echo '           launch calculator'
-  echo 'openrepo - Opens the local dir git repo with $BROWSER'
-  echo 'grmb     - Removes a git branch on the remote repository e.g.'
-  echo '           grmb origin mybranch'
   echo 'refresh  - Performs a `git fetch --all --prune`, checks out sit'
   echo '           (if present) or master and pulls from the remote'
   echo 'loadenv  - Exports an ENV file into the current shell session'
   echo '           Provide a file path or it defaults to "./.env" e.g.'
   echo '           loadenv "../../.my_env"'
   echo 'lports   - List all open ports and their PIDs, use `kill <PID>` to close a port'
-
-  echo ''
-  echo 'Ubuntu Functions'
-  echo '----------------'
-  echo ''
-
-  echo 'suspend - Suspend/hibernate the machine'
-  echo 'rwifi   - Hard re-start/connect the WIFI adapter (useful for driver issues)'
+  echo 'dbash    - Docker exec bash into running container e.g.'
+  echo '           dbash container_name'
+  echo 'workon   - CD to ~/projects/<project> with bash completion e.g.'
+  echo '           workon myproject'
+  echo 'cleanup_unused_db_subnets - Delete unused AWS RDS subnet groups'
 
   echo ''
 }
@@ -62,84 +42,20 @@ findhere() {
   find . -name "$1"
 }
 
-findall() {
-  find / -name "$1"
-}
-
-finddot() {
-  find ~ -name ".*" -maxdepth 1 -type l
-}
-alias finddots=finddot
-
 search() {
   grep -rni "$1" .
-}
-
-rmds() {
-  find . -name ".DS_Store" -type f -delete
 }
 
 dir() {
   mkdir "$1" && cd "$1"
 }
 
-manpdf() {
-  man -t "$1" | open -f -a /Applications/Preview.app/
-}
-
 zipit() {
   zip -r "$1.zip" "$1"
 }
 
-# credit: http://nparikh.org/notes/zshrc.txt
-extract() {
-  if [ -f $1 ]; then
-    case $1 in
-    *.tar.bz2) tar -jxvf $1 ;;
-    *.tar.gz) tar -zxvf $1 ;;
-    *.bz2) bunzip2 $1 ;;
-    *.dmg) hdiutil mount $1 ;;
-    *.gz) gunzip $1 ;;
-    *.tar) tar -xvf $1 ;;
-    *.tbz2) tar -jxvf $1 ;;
-    *.tgz) tar -zxvf $1 ;;
-    *.zip) unzip $1 ;;
-    *.ZIP) unzip $1 ;;
-    *.pax) cat $1 | pax -r ;;
-    *.pax.Z) uncompress $1 --stdout | pax -r ;;
-    *.rar) unrar x $1 ;;
-    *.Z) uncompress $1 ;;
-    *) echo "'$1' cannot be extracted/mounted via extract()" ;;
-    esac
-  else
-    echo "'$1' is not a valid file"
-  fi
-}
-
 sshi() {
   ssh -i ~/.ssh/id_rsa $1
-}
-alias sushi='sshi'
-
-sedit() {
-  sed -ie "s/$1/$2/g" $3
-}
-
-gblogs() {
-  git log --oneline --walk-reflogs "$(git rev-parse --abbrev-ref HEAD)"
-}
-
-launch() {
-  open -a "$1.app"
-}
-
-openrepo() {
-  local url=$(git remote -v | grep "origin" | awk 'FNR == 1 {print $2}' | rev | sed "s/tig.//" | rev)
-  open $url
-}
-
-grmb() {
-  git push $1 --delete $2
 }
 
 refresh() {
@@ -165,72 +81,12 @@ lports() {
   lsof -i -P -n | grep LISTEN
 }
 
-# Ubuntu Functions
-
-suspend() {
-  systemctl suspend
-}
-
-rwifi() {
-  nmcli radio wifi off
-  sleep 1 # wait for 1 second before turning the adapter back on
-  nmcli radio wifi on
-}
-
-active_cluster() {
-  if [ -e ./.ocopsworks.rc ]; then
-    rcfile='.ocopsworks.rc'
-  elif [ -e ./.mhopsworks.rc ]; then
-    rcfile='.mhopsworks.rc'
-  fi
-  if [ ! -z ${rcfile+x} ]; then
-    cluster=$(cat $rcfile | grep '^cluster' | sed 's/cluster=cluster_config-\(.*\)\.json.*/\1/g')
-    echo " [$cluster]"
-  fi
-}
-
-stack_id() {
-  aws --profile ${2:-default} opsworks describe-stacks --query "Stacks[?Name=='$1'].StackId" --output text
-}
-
-oc-ips() {
-  aws_profile=${1:-test}
-  echo "using aws profile $aws_profile"
-  cluster_name=$(sed -n 's/cluster=cluster_config-\([^\.]\+\)\.json/\1/p' .ocopsworks.rc)
-  aws --profile $aws_profile ec2 describe-instances \
-    --output text \
-    --filters "Name=tag:opsworks:stack,Values=$cluster_name" \
-    --query "Reservations[].Instances[].[Tags[?Key=='opsworks:instance']|[0].Value,PublicIpAddress]" |
-    grep -v 'None$' >.oc-ips
-}
-
-ssh_to() {
-  hostname=$1
-  ip=$(grep "^$hostname" .oc-ips | cut -f 2)
-  ssh -A -t $ip
-}
-
-cswitch() {
-  cname=$1
-  aws_profile=${2:-test}
-  pry -r "./lib/cluster" -e "switcher = Cluster::ClusterSwitcherSession.new; switcher.set_cluster_to('cluster_config-${cname}.json'); switcher.download_latest_cluster_config_for('cluster_config-${cname}.json'); exit" >/dev/null
-  oc-ips $aws_profile
-}
-
-oc-connect() {
-  stack_id=$1
-  instance=$2
-  aws opsworks describe-instances --stack-id $stack_id \
-    --query "Instances[?Hostname=='$instance'].[Ec2InstanceId,PublicIp,AvailabilityZone]" \
-    --output text |
-    while read id ip az; do
-      aws ec2-instance-connect send-ssh-public-key --instance-id $id --instance-os-user $USER --availability-zone $az --ssh-public-key file://${HOME}/.ssh/id_rsa.pub
-      echo "ssh $ip"
-    done
-}
-
 dbash() {
     docker exec -t -i $(docker ps | grep $1 | awk '{ print $1 }') bash
+}
+
+dopper() {
+    docker stop $(docker ps | grep $1 | awk '{ print $1 }')
 }
 
 workon() {
@@ -251,3 +107,37 @@ _workon_completions()
 
 complete -F _workon_completions workon
 
+cleanup_unused_db_subnets() {
+  local dbsubnets subnet cluster instances reply
+  
+  dbsubnets=$(aws rds describe-db-subnet-groups --query "DBSubnetGroups[].[DBSubnetGroupName]" --output text)
+  
+  for subnet in $dbsubnets; do
+    cluster=$(aws rds describe-db-clusters --query "DBClusters[?DBSubnetGroup=='${subnet}'][DBClusterIdentifier]" --output text)
+    instances=$(aws rds describe-db-instances --query "DBInstances[?DBSubnetGroup.DBSubnetGroupName=='${subnet}'].DBInstanceIdentifier" --output text)
+    
+    echo "$subnet    $cluster"
+    echo "$subnet    $instances"
+    
+    if [ -z "${cluster}${instances}" ]; then
+      echo "no cluster or instances found for $subnet"
+      read -p "Delete $subnet? (y/n) " -n 1 -r reply
+      echo
+      if [[ $reply =~ ^[Yy]$ ]]; then
+        echo "Deleting $subnet..."
+        aws rds delete-db-subnet-group --db-subnet-group-name $subnet
+      else
+        echo "Skipped $subnet"
+      fi
+    fi
+  done
+}
+
+iso2epoch() {
+    date -d"${1}" +%s
+}
+
+iso2epochms() {
+    epoch_seconds=$(iso2epoch $1)
+    echo $((epoch_seconds * 1000))
+}

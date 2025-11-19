@@ -61,27 +61,24 @@
   changed = green
   untracked = cyan
 [user]
-  email = jay_luker@harvard.edu
-  name = Jay Luker
+	email = jay_luker@harvard.edu
+	name = Jay Luker
 [core]
   excludesfile = /home/jluker/.gitignore_global
-  editor = vim
-  pager = less -x4
+  editor = nvim
+  pager = less -Xx4
   attributesfile = /home/jluker/.gitattributes
   ignorecase = false
 [cola]
 	spellcheck = false
 [hub]
 	protocol = ssh
-[filter "nbstrip_full"]
-  clean = "jq --indent 1 \
-        '(.cells[] | select(has(\"outputs\")) | .outputs) = []  \
-        | (.cells[] | select(has(\"execution_count\")) | .execution_count) = null  \
-        | .metadata = {\"language_info\": {\"name\": \"python\", \"pygments_lexer\": \"ipython3\"}} \
-        | .cells[].metadata = {} \
-        '"
-  smudge = cat
-  required = true
 
 [init]
 	defaultBranch = main
+[credential "https://github.com"]
+	helper =
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = !/usr/bin/gh auth git-credential
