@@ -10,3 +10,5 @@
 .vscode
 .oc-ips
 .deja-dup-ignore
+
+**/.claude/settings.local.json

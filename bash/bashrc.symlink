@@ -181,3 +181,6 @@ test -f ~/.hstrrc && source ~/.hstrrc
 # eval $(ssh-agent)
 
 # eval "$(starship init bash)"
+
+# Pi
+export PATH="/home/jluker/.nodenv/versions/24.11.1/bin:$PATH"

@@ -30,8 +30,9 @@ export M2_REPO=~/.m2
 export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:bin/java::")
 
 # aws stuff
-export AWS_PROFILE=test
+export AWS_PROFILE=stage
 export AWS_REGION=us-east-1
 export AWS_DEFAULT_REGION=us-east-1
 
 export BROWSER=/usr/bin/firefox
+

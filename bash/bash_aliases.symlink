@@ -1,10 +1,11 @@
 
 alias cp='cp -i'
 alias mv='mv -i'
-alias grep='grep --color'
+alias grep='rg -uu --color=auto'
 alias cls='clear'
 alias se='screen -e^Ee -S main -DR'
 alias s='screen -DR'
+alias tm='tmux -u new-session -A -s main'   # tmux (Ghostty/Claude workflow); screen se/s untouched
 alias vi='nvim'
 alias vim='nvim'
 alias ports='lsof -i| grep LISTEN'
@@ -14,9 +15,9 @@ alias rmvirtualenv='pyenv virtualenv-delete $(basename $(pwd)) && rm -f .python-
 alias workong='workon'
 
 # some more ls aliases
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -lCF'
+#alias ll='ls -alF'
+#alias la='ls -A'
+#alias l='ls -lCF'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -40,3 +41,16 @@ alias aws-prod='aws --profile prod'
 
 # ecr login
 alias ecr-login='aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 542186135646.dkr.ecr.us-east-1.amazonaws.com'
+
+# use zed instead of vscode
+alias code='zed'
+
+# fancy `ls` replacement - https://github.com/lsd-rs/lsd
+alias ls='lsd'
+alias l='lsd -l'
+alias ll='lsd -l'
+alias la='lsd -a'
+alias lla='lsd -la'
+alias lt='lsd --tree'
+
+alias ec2-ami="aws ssm get-parameter --name /aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64 --query 'Parameter.Value' --output text"

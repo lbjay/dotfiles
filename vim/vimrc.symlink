@@ -1,4 +1,5 @@
 
+let g:loaded_osc52 = 1
 set nowrap
 set nostartofline
 set laststatus=2
@@ -67,11 +68,11 @@ map <C-Up> <C-Y>
 map <C-Down> <C-E>
 
 set t_Co=256
-"colorscheme industry
+colorscheme industry
 
 call plug#begin()
-Plug 'tpope/vim-sensible'
-Plug 'preservim/nerdtree'
+" Plug 'tpope/vim-sensible'
+" Plug 'preservim/nerdtree'
 call plug#end()
 
 let g:airline_powerline_fonts = 1

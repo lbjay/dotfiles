@@ -1,0 +1,53 @@
+# Ghostty — Claude Code workflow, SAND keybindings (Linux/i3 adaptation).
+# SAND = Split, Across (tabs), Navigate, Destroy. Companion: ../tmux/tmux.conf
+# Super (Mod4) is reserved by i3, so SAND uses ctrl+shift (free at the i3 level).
+
+# --- Typography ---
+font-family = Hack Nerd Font
+font-size = 10
+font-thicken = false
+
+# --- Appearance ---
+#theme = light:Catppuccin Latte,dark:Catppuccin Mocha
+config-file = ?auto/theme.ghostty
+background-opacity = 0.95
+window-padding-x = 8
+window-padding-y = 6
+window-save-state = always
+
+# --- Splits: make pane dividers obvious ---
+split-divider-color = #f38ba8
+# Unfocused panes recede: tinted toward the fill color; opacity near 1 keeps it
+# subtle (a slightly different background), lower it for a stronger dim.
+unfocused-split-opacity = 0.92
+unfocused-split-fill = #11111b
+
+# --- Cursor & mouse ---
+cursor-style = bar
+mouse-hide-while-typing = true
+copy-on-select = clipboard
+
+# --- Claude Code / large-output tuning ---
+scrollback-limit = 25000000
+clipboard-paste-protection = true
+shell-integration = detect
+
+# --- SAND keybindings ---
+# S — Split
+keybind = ctrl+shift+d=new_split:right
+keybind = ctrl+shift+enter=new_split:down
+# A — Across (tabs)
+keybind = ctrl+shift+t=new_tab
+keybind = ctrl+shift+arrow_left=previous_tab
+keybind = ctrl+shift+arrow_right=next_tab
+# N — Navigate (vim h/j/k/l)
+keybind = ctrl+shift+h=goto_split:left
+keybind = ctrl+shift+l=goto_split:right
+keybind = ctrl+shift+k=goto_split:up
+keybind = ctrl+shift+j=goto_split:down
+keybind = ctrl+shift+e=equalize_splits
+keybind = ctrl+shift+f=toggle_split_zoom
+# D — Destroy
+keybind = ctrl+shift+w=close_surface
+# Utility
+keybind = ctrl+shift+comma=reload_config

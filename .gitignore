@@ -1,1 +1,11 @@
 git/gitconfig.local.symlink
+
+# defense-in-depth: never commit credential material or local state
+.env*
+*.pem
+*.key
+id_*
+.netrc
+*secret*
+*.backup
+.claude/settings.local.json
