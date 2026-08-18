@@ -1,0 +1,12 @@
+# ~/.blerc — ble.sh configuration
+# Autosuggestions and syntax highlighting are ON by default; nothing is needed
+# here for the base experience. Accept a suggestion with Right / C-f / End.
+# Full option reference:
+#   https://github.com/akinomyoga/ble.sh/blob/master/blerc.template
+
+# Delay (ms) before showing an autosuggestion (default 1):
+# bleopt complete_auto_delay=150
+
+# Disable features if ever needed:
+# bleopt complete_auto_complete=   # autosuggestions off
+# bleopt highlight_syntax=         # syntax highlighting off

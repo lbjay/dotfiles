@@ -1,6 +1,10 @@
 
 [[ $- != *i* ]] && return
 
+# ble.sh (autosuggestions + syntax highlighting); install via `make blesh`.
+# Attach is deferred to the last line of this file.
+[[ -f ~/.local/share/blesh/ble.sh ]] && source -- ~/.local/share/blesh/ble.sh --attach=none
+
 test -f ~/.bash_functions && source ~/.bash_functions
 test -f ~/.bash_aliases && source ~/.bash_aliases
 test -f ~/.bash_exports && source ~/.bash_exports
@@ -177,3 +181,6 @@ test -f ~/.hstrrc && source ~/.hstrrc
 # Must be the last PROMPT_COMMAND change: run __capture_exit first so
 # set_prompt and the OSC 133 D-mark see the user command's real exit status.
 PROMPT_COMMAND="__capture_exit${PROMPT_COMMAND:+; $PROMPT_COMMAND}"
+
+# ble.sh attach — must stay the last line of this file
+[[ ! ${BLE_VERSION-} ]] || ble-attach
