@@ -64,10 +64,10 @@
 	email = jay_luker@harvard.edu
 	name = Jay Luker
 [core]
-  excludesfile = /home/jluker/.gitignore_global
+  excludesfile = ~/.gitignore_global
   editor = nvim
   pager = less -Xx4
-  attributesfile = /home/jluker/.gitattributes
+  attributesfile = ~/.gitattributes
   ignorecase = false
 [cola]
 	spellcheck = false

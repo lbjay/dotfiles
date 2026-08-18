@@ -1,9 +1,7 @@
 
 export INPUTRC=~/.inputrc
-export TERMINAL=gnome-terminal
-export TERM=xterm-256color
+export TERMINAL=ghostty
 export LOCALIP="127.0.0.1"
-export OS=$(uname)
 
 export HISTCONTROL=ignoreboth:erasedups     # for 'ignoreboth': ignore duplicates and /^\s/
 export HISTIGNORE="&:ls:ll:la:l.:pwd:cd:exit:clear"

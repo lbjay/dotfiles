@@ -61,17 +61,11 @@ if [ -d $HOME/.nodenv ]; then
 		eval "$(nodenv init -)"
 fi
 
-## If not running interactively, don't do anything
-#case $- in
-#    *i*) ;;
-#      *) return;;
-#esac
-
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/jluker/Downloads/google-cloud-sdk/path.bash.inc' ]; then . '/home/jluker/Downloads/google-cloud-sdk/path.bash.inc'; fi
+if [ -f "$HOME/Downloads/google-cloud-sdk/path.bash.inc" ]; then . "$HOME/Downloads/google-cloud-sdk/path.bash.inc"; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/home/jluker/Downloads/google-cloud-sdk/completion.bash.inc' ]; then . '/home/jluker/Downloads/google-cloud-sdk/completion.bash.inc'; fi
+if [ -f "$HOME/Downloads/google-cloud-sdk/completion.bash.inc" ]; then . "$HOME/Downloads/google-cloud-sdk/completion.bash.inc"; fi
 
 # tabtab source for packages
 # uninstall by removing these lines
@@ -104,17 +98,8 @@ colors() {
 	done
 }
 
-[ -r /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion
-
-# Change the window title of X terminals
-case ${TERM} in
-	xterm*|rxvt*|Eterm*|aterm|kterm|gnome*|interix|konsole*)
-		PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\007"'
-		;;
-	screen*)
-		PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\033\\"'
-		;;
-esac
+# Window title (Ghostty; tmux sets its own titles natively)
+PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND; }"'echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\007"'
 
 # Function to set prompt with exit status color and git info
 set_prompt() {
@@ -148,9 +133,6 @@ set_prompt() {
 # Append set_prompt to existing PROMPT_COMMAND (which includes history commands from bash_exports)
 PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND; }set_prompt"
 
-alias ls='ls --color=auto'
-alias grep='grep --colour=auto'
-
 if [ "$PS1" ]; then # if running interactively, then run till 'fi' at EOF:
   set -b                 # causes output from background processes to be output right away, not on wait for next primary prompt
   set bell-style visible # I hate noise
@@ -181,6 +163,3 @@ test -f ~/.hstrrc && source ~/.hstrrc
 # eval $(ssh-agent)
 
 # eval "$(starship init bash)"
-
-# Pi
-export PATH="/home/jluker/.nodenv/versions/24.11.1/bin:$PATH"
