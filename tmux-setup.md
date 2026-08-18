@@ -12,8 +12,9 @@ Verified against tmux 3.7b.
 ## Goal
 
 Run tmux without disrupting comfortable screen muscle memory. The config keeps
-`C-a` as the prefix and reproduces screen's `C-a C-a` last-window toggle;
-nearly everything else is identical or one rebind away.
+`C-e` as the prefix — matching the `se` alias's `screen -e^Ee`, not screen's
+`C-a` default — and reproduces the `C-e C-e` last-window toggle; nearly
+everything else is identical or one rebind away.
 
 ## Install
 
@@ -30,19 +31,21 @@ so the generic installer skips it.
 
 ## Prefix and nesting
 
-Keep `C-a` as the prefix so existing habits carry over:
+Keep `C-e` as the prefix so existing habits carry over. Note the habit comes
+from the `se` alias (`screen -e^Ee`), which set the escape at invocation — the
+`.screenrc` itself never overrode screen's `C-a` default:
 
 ```tmux
-set -g prefix C-a
+set -g prefix C-e
 unbind C-b
-bind a send-prefix        # C-a a  -> literal C-a to the app
-bind C-a last-window      # C-a C-a -> toggle previous window
+bind e send-prefix        # C-e e  -> literal C-e to the app (readline end-of-line)
+bind C-e last-window      # C-e C-e -> toggle previous window
 ```
 
 For nested sessions (local -> SSH -> remote tmux), tmux does not need a distinct
-command character: pressing the prefix twice (`C-a C-a`) sends one literal prefix
-to the inner layer. It stacks per level, so the inner layer is reached by
-pressing `C-a` once per level then the key.
+command character: `C-e e` (send-prefix) passes one literal `C-e` to the inner
+layer (`C-e C-e` itself is taken by the last-window toggle). It stacks per
+level, so the inner layer is reached via `C-e e` per level then the key.
 
 ## Aliases
 
@@ -105,7 +108,7 @@ setw -g automatic-rename-format '#{pane_current_command}:#{b:pane_current_path}'
 This yields names like `vim:dotfiles` — active command plus cwd basename,
 auto-updating for long-running processes.
 
-## Last command output in a pager (`C-a O`)
+## Last command output in a pager (`C-e O`)
 
 `bind-key O` in `tmux/tmux.conf` grabs exactly the previous command's output and
 opens it in `less` inside a popup. Mechanics:
@@ -132,11 +135,11 @@ defaults such as the split keys):
 
 | screen    | tmux native | action              |
 |-----------|-------------|---------------------|
-| `C-a "`   | `prefix w`  | window list         |
-| `C-a A`   | `prefix ,`  | rename window       |
-| `C-a k`   | `prefix &`  | kill window         |
-| `C-a '`   | `prefix '`  | select window index |
-| `C-a Tab` | `prefix o`  | cycle panes         |
+| `C-e "`   | `prefix w`  | window list         |
+| `C-e A`   | `prefix ,`  | rename window       |
+| `C-e k`   | `prefix &`  | kill window         |
+| `C-e '`   | `prefix '`  | select window index |
+| `C-e Tab` | `prefix o`  | cycle panes         |
 
 Splits (tmux panes are first-class): `prefix %` left/right, `prefix "`
 top/bottom.

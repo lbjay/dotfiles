@@ -40,7 +40,7 @@ All symlinkable files MUST end with `.symlink` extension.
 ## Terminal Workflow
 
 - Single gnome-terminal window with GNU screen session (`se` alias to start/resume) — the primary daily driver
-- A second, parallel workflow uses Ghostty + tmux (`tm` alias; config at `~/.config/tmux/tmux.conf`, sourced from `tmux/tmux.conf`) for Claude Code work. It mirrors the screen key bindings (C-a prefix) for continuity; gnome-terminal + screen are left untouched. See `tmux-setup.md`.
+- A second, parallel workflow uses Ghostty + tmux (`tm` alias; config at `~/.config/tmux/tmux.conf`, sourced from `tmux/tmux.conf`) for Claude Code work. It mirrors the screen key bindings for continuity (C-e prefix, matching the `se` alias's `screen -e^Ee` — not screen's C-a default); gnome-terminal + screen are left untouched. See `tmux-setup.md`.
 - `set_prompt` in `bash/bashrc.symlink` embeds OSC 133 escape sequences (`\e]133;D/A/B\a` in PS1, `\e]133;C\a` in PS0) — these are semantic prompt marks consumed by tmux's `C-a O` last-output pager and Ghostty; do not remove them as noise.
 - Almost black terminal background with simple color scheme
 - Unlimited shell history for reference
