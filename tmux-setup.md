@@ -105,6 +105,23 @@ setw -g automatic-rename-format '#{pane_current_command}:#{b:pane_current_path}'
 This yields names like `vim:dotfiles` — active command plus cwd basename,
 auto-updating for long-running processes.
 
+## Last command output in a pager (`C-a O`)
+
+`bind-key O` in `tmux/tmux.conf` grabs exactly the previous command's output and
+opens it in `less` inside a popup. Mechanics:
+
+- Requires OSC 133 prompt marks, which `set_prompt` in `bash/bashrc.symlink`
+  emits (`133;D;<exit>` + `133;A` before the prompt, `133;B` after it, `133;C`
+  via `PS0` at command start). Do not strip those escape sequences.
+- Uses tmux ≥ 3.4 copy-mode commands `previous-prompt -o` / `next-prompt`
+  (Fedora ships 3.7b). `cursor-up` — not `previous-line` — is what excludes the
+  next prompt line from the selection.
+- Output is staged at `${TMPDIR:-/tmp}/tmux-last-output` and overwritten each use.
+
+Outside tmux, the Ghostty-native equivalents are `ctrl+triple-click` (select a
+command's output) and the `jump_to_prompt` keybind actions; there is no Ghostty
+keybind for paging output (upstream declined the feature request).
+
 ## Key mapping (screen -> tmux)
 
 Identical, nothing to do: `c` new window, `n`/`p` next/prev, `0`-`9` select,

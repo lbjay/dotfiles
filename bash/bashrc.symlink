@@ -101,9 +101,14 @@ colors() {
 # Window title (Ghostty; tmux sets its own titles natively)
 PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND; }"'echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\007"'
 
+# Capture the user command's exit status before anything else in PROMPT_COMMAND
+# runs (history/title commands would otherwise clobber $?). Prepended to
+# PROMPT_COMMAND at the bottom of this file, after all other additions.
+__capture_exit() { __last_exit=$?; }
+
 # Function to set prompt with exit status color and git info
 set_prompt() {
-    local last_exit=$?
+    local last_exit=${__last_exit:-0}
     local prompt_color git_branch git_info
     
     # Color prompt character based on exit status
@@ -127,11 +132,16 @@ set_prompt() {
     fi
     
     # Build prompt: [time] ./directory (git-branch) $
-    PS1="\[\033[01;34m\][\t]\[\033[00m\] \[\033[01;36m\]./\W\[\033[00m\]${git_info} ${prompt_color}\$\[\033[00m\] "
+    # Wrapped in OSC 133 marks (D;exit / A = prompt start, B = prompt end) so
+    # tmux/ghostty can locate prompts and command output.
+    PS1="\[\e]133;D;${last_exit}\a\]\[\e]133;A\a\]\[\033[01;34m\][\t]\[\033[00m\] \[\033[01;36m\]./\W\[\033[00m\]${git_info} ${prompt_color}\$\[\033[00m\] \[\e]133;B\a\]"
 }
 
 # Append set_prompt to existing PROMPT_COMMAND (which includes history commands from bash_exports)
 PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND; }set_prompt"
+
+# OSC 133 command-start mark; PS0 is not a readline prompt, so no \[ \]
+PS0='\e]133;C\a'
 
 if [ "$PS1" ]; then # if running interactively, then run till 'fi' at EOF:
   set -b                 # causes output from background processes to be output right away, not on wait for next primary prompt
@@ -163,3 +173,7 @@ test -f ~/.hstrrc && source ~/.hstrrc
 # eval $(ssh-agent)
 
 # eval "$(starship init bash)"
+
+# Must be the last PROMPT_COMMAND change: run __capture_exit first so
+# set_prompt and the OSC 133 D-mark see the user command's real exit status.
+PROMPT_COMMAND="__capture_exit${PROMPT_COMMAND:+; $PROMPT_COMMAND}"
