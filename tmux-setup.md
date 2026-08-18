@@ -130,6 +130,10 @@ keybind for paging output (upstream declined the feature request).
 Identical, nothing to do: `c` new window, `n`/`p` next/prev, `0`-`9` select,
 `d` detach, `[` copy mode, `]` paste, `?` help.
 
+Screen also accepts the ctrl-held forms (`C-e C-c`, `C-e C-n`, ...) which tmux
+does not bind by default, so the config adds them: `C-c` new window, `C-n`/`C-p`
+next/prev, `C-d` detach.
+
 Different but native (adapt rather than rebind, to avoid clobbering tmux
 defaults such as the split keys):
 
