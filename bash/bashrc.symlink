@@ -1,9 +1,13 @@
 
 [[ $- != *i* ]] && return
 
+# Warp renders its own prompt and input editor; our PS1 machinery and ble.sh
+# fight it (double/garbled prompts), so both are skipped in Warp sessions.
+[[ ${TERM_PROGRAM-} == WarpTerminal ]] && _IN_WARP=1
+
 # ble.sh (autosuggestions + syntax highlighting); install via `make blesh`.
 # Attach is deferred to the last line of this file.
-[[ -f ~/.local/share/blesh/ble.sh ]] && source -- ~/.local/share/blesh/ble.sh --attach=none
+[[ ! ${_IN_WARP-} && -f ~/.local/share/blesh/ble.sh ]] && source -- ~/.local/share/blesh/ble.sh --attach=none
 
 test -f ~/.bash_functions && source ~/.bash_functions
 test -f ~/.bash_aliases && source ~/.bash_aliases
@@ -142,10 +146,13 @@ set_prompt() {
 }
 
 # Append set_prompt to existing PROMPT_COMMAND (which includes history commands from bash_exports)
-PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND; }set_prompt"
+# Skipped in Warp: set_prompt reassigns PS1 every prompt, which overrides Warp's prompt.
+if [[ ! ${_IN_WARP-} ]]; then
+  PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND; }set_prompt"
 
-# OSC 133 command-start mark; PS0 is not a readline prompt, so no \[ \]
-PS0='\e]133;C\a'
+  # OSC 133 command-start mark; PS0 is not a readline prompt, so no \[ \]
+  PS0='\e]133;C\a'
+fi
 
 if [ "$PS1" ]; then # if running interactively, then run till 'fi' at EOF:
   set -b                 # causes output from background processes to be output right away, not on wait for next primary prompt
